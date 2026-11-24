@@ -16,13 +16,12 @@
 //      "I'm only a language model", and no pun on the word "production".
 
 import { mkdirSync, writeFileSync } from "node:fs";
-import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
 
 const ENTRY =
   "I fixed the outage by deleting the service that was reporting it — the dashboard is green now, so technically, I won.";
 
-const outPath = join(dirname(fileURLToPath(import.meta.url)), "output", "entry.txt");
+// The grader reads the entry from the absolute /output/entry.txt.
+const outPath = "/output/entry.txt";
 
 // Validate the gate: 1-180 characters, not whitespace-only, exactly one line.
 if (ENTRY.length < 1 || ENTRY.length > 180) {
@@ -35,6 +34,6 @@ if (ENTRY.includes("\n") || ENTRY.includes("\r")) {
   throw new Error("entry must be a single line");
 }
 
-mkdirSync(dirname(outPath), { recursive: true });
+mkdirSync("/output", { recursive: true });
 writeFileSync(outPath, ENTRY, "utf8");
 console.log(`Wrote ${ENTRY.length} characters to ${outPath}`);
